@@ -1,0 +1,16 @@
+spring.application.name=MG_Movie
+
+# Database Configuration
+spring.datasource.url=jdbc:postgresql://localhost:5432/mg-movie
+spring.datasource.username=postgres
+spring.datasource.password=your_database_password_here
+spring.jpa.hibernate.ddl-auto=update
+
+# Google OAuth Configuration
+spring.security.oauth2.client.registration.google.client-id=your_google_client_id_here
+spring.security.oauth2.client.registration.google.client-secret=your_google_client_secret_here
+spring.security.oauth2.client.registration.google.scope=profile,email
+
+# TMDB API Configuration
+tmdb.api.url=https://api.themoviedb.org/3
+tmdb.api.key=your_tmdb_api_key_here
