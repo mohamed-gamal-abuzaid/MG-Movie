@@ -5,22 +5,24 @@ import com.mo.MG_Movie.DTOs.TmdbResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
 import java.time.Year;
 
 @Service
 public class MovieService {
 
     private final RestClient restClient;
+    private final String apiKey;
 
-    @Value("${tmdb.api.key}")
-    private String apiKey;
+    public MovieService(
+            @Value("${tmdb.api.url}") String baseUrl,
+            @Value("${tmdb.api.key}") String apiKey) {
 
+        // 💡 تأمين الرابط: إزالة أي شرطة مائلة زائدة من نهاية الـ Base URL لتجنب الـ 404
+        String cleanedBaseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
 
-    public MovieService(@Value("${tmdb.api.url}") String baseUrl) {
-        this.restClient = RestClient.builder().baseUrl(baseUrl).build();
+        this.restClient = RestClient.builder().baseUrl(cleanedBaseUrl).build();
+        this.apiKey = apiKey;
     }
-
 
     public TmdbResponseDto getFeaturedMovies() {
         return restClient.get()
@@ -29,14 +31,12 @@ public class MovieService {
                 .body(TmdbResponseDto.class);
     }
 
-
     public TmdbResponseDto getPopularMovies(int page) {
         return restClient.get()
                 .uri("/movie/popular?api_key=" + apiKey + "&language=en-US&page=" + page)
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
-
 
     public TmdbResponseDto getTopRatedMovies(int page) {
         return restClient.get()
@@ -45,14 +45,12 @@ public class MovieService {
                 .body(TmdbResponseDto.class);
     }
 
-
     public TmdbResponseDto searchMovies(String query, int page) {
         return restClient.get()
                 .uri("/search/movie?api_key=" + apiKey + "&query=" + query + "&language=en-US&page=" + page)
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
-
 
     public MovieDto getMovieDetails(Long id) {
         try {
@@ -65,11 +63,9 @@ public class MovieService {
         }
     }
 
-
     public TmdbResponseDto getFeaturedArabicMovies(int page) {
         int currentYear = Year.now().getValue();
         int lastYear = currentYear - 2;
-
 
         String fromDate = lastYear + "-01-01";
         String toDate = currentYear + "-12-31";
@@ -86,7 +82,6 @@ public class MovieService {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
-
 
     public TmdbResponseDto getPopularArabicMovies(int page) {
         return restClient.get()
@@ -111,6 +106,4 @@ public class MovieService {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
-
-
 }
