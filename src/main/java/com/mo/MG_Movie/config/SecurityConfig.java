@@ -55,7 +55,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://mg-movie.vercel.app", "https://mg-movie-front-end-lp46.vercel.app","https://mg-movie-front-9cjdqot01-mohamed-gamals-projects-e1f53a9d.vercel.app/"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://mg-movie.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
         configuration.setExposedHeaders(List.of("Authorization"));
