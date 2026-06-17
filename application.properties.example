@@ -1,6 +1,6 @@
 spring.application.name=MG_Movie
 
-# Database Configuration
+# 1. تصليح السطر وبقاء القراءة الديناميكية من الـ Environment Variables
 spring.datasource.url=${DATABASE_URL}
 spring.datasource.username=${DATABASE_USERNAME}
 spring.datasource.password=${DATABASE_PASSWORD}
@@ -8,11 +8,19 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 
-# Google OAuth Configuration
-spring.security.oauth2.client.registration.google.client-id=your_google_client_id_here
-spring.security.oauth2.client.registration.google.client-secret=your_google_client_secret_here
+# 2. إعدادات الـ Google OAuth (مأمنة عبر متغيرات)
+spring.security.oauth2.client.registration.google.client-id=${GOOGLE_CLIENT_ID}
+spring.security.oauth2.client.registration.google.client-secret=${GOOGLE_CLIENT_SECRET}
 spring.security.oauth2.client.registration.google.scope=profile,email
 
-# TMDB API Configuration
+# 3. إعدادات TMDB API
 tmdb.api.url=https://api.themoviedb.org/3
-tmdb.api.key=your_tmdb_api_key_here
+tmdb.api.key=${TMDB_API_KEY:ca1fb024982f345a2a1797f0c606fb28}
+
+# 4. JWT Configuration
+mgmovie.jwt.secret=${JWT_SECRET:YourSuperSecretKeyForJWTThatIsVeryLongAndSecure123456}
+mgmovie.jwt.expirationMs=${JWT_EXPIRATION_MS:86400000}
+
+# 5. OAuth2 Resource Server
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://accounts.google.com
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri=https://www.googleapis.com/oauth2/v3/certs
